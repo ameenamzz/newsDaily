@@ -1,6 +1,10 @@
 const express = require("express");
 const app = express();
 const connectDB = require("./config/database");
+const authRouter = require("./routes/authRouter");
+
+app.use(express.json());
+app.use(authRouter);
 
 app.get("/", (req, res) => {
   res.send("hello newsDaily.....");
