@@ -5,10 +5,16 @@ const userSchema = new mongoose.Schema(
     firstName: {
       type: String,
       required: true,
+      minlength: 2,
+      maxlength: 10,
+      trim: true,
     },
     lastName: {
       type: String,
       required: true,
+      minlength: 2,
+      maxlength: 10,
+      trim: true,
     },
     email: {
       type: String,
@@ -18,6 +24,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+      minlength: 8,
     },
     profilePhoto: {
       type: String,
