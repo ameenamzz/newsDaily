@@ -1,10 +1,12 @@
 const express = require("express");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+const { validateSignUp } = require("../utils/validator");
 const authRouter = express.Router();
 
 authRouter.post("/signup", async (req, res) => {
   try {
+    validateSignUp(req);
     const { firstName, lastName, email, password, profilePhoto, preferences } =
       req.body;
     const passwordHash = await bcrypt.hash(password, 10);
@@ -19,7 +21,7 @@ authRouter.post("/signup", async (req, res) => {
     await user.save();
     res.send("user added successfully");
   } catch (error) {
-    res.status(400).send("ERROR" + error.message);
+    res.status(400).send("ERROR: " + error.message);
   }
 });
 
