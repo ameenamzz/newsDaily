@@ -1,6 +1,7 @@
 const express = require("express");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+var jwt = require("jsonwebtoken");
 const { validateSignUp } = require("../utils/validator");
 const authRouter = express.Router();
 
@@ -34,11 +35,17 @@ authRouter.post("/login", async (req, res) => {
     if (!user) {
       throw new Error("User Not found");
     }
+    // PASSWORD CHECK
     const passwordHash = user.password;
     const passwordCheck = await bcrypt.compare(password, passwordHash);
     if (!passwordCheck) {
       throw new Error("Incorrect Password");
     }
+
+    // JWT TOKEN
+    var token = jwt.sign({ email: email }, "NEWS@123");
+    res.cookie("token", token);
+
     res.send("login Successfull");
   } catch (error) {
     console.log(error);
