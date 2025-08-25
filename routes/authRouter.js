@@ -43,7 +43,7 @@ authRouter.post("/login", async (req, res) => {
     }
 
     // JWT TOKEN
-    var token = jwt.sign({ email: email }, "NEWS@123");
+    var token = jwt.sign({ email: email }, process.env.JWT_SECRET);
     res.cookie("token", token);
 
     res.send("login Successfull");
