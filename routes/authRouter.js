@@ -25,4 +25,25 @@ authRouter.post("/signup", async (req, res) => {
   }
 });
 
+authRouter.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({
+      email: email,
+    });
+    if (!user) {
+      throw new Error("User Not found");
+    }
+    const passwordHash = user.password;
+    const passwordCheck = await bcrypt.compare(password, passwordHash);
+    if (!passwordCheck) {
+      throw new Error("Incorrect Password");
+    }
+    res.send("login Successfull");
+  } catch (error) {
+    console.log(error);
+    res.status(400).send("ERROR: " + error.message);
+  }
+});
+
 module.exports = authRouter;
